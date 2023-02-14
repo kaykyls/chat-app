@@ -26,8 +26,7 @@ const Register = () => {
                 <span className='signin'>Already a member? <a href='/'>Sing In</a></span>
             </div>
         </div>
-        <div className="image-div">
-        </div>
+        <div className="image-div"></div>
     </div>
     
   )
