@@ -2,16 +2,33 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    margin: 1rem 3rem;
+    border-radius: 16px;
+    background: var(--secondary-color);
 }
 
-.form-container {
+.search-form-container {
     display: flex;
+    margin-top: 1rem;
 }
 
 .search-form input {
     display: flex;
-    padding: .5rem 10rem;
+    padding: .5rem;
     width: 100%;
-    margin: 10px;
+    height: 100%;
+    border: none;
     border-radius: 1rem;
+    font-size: 1rem;
+    background: var(--secondary-color);
+}
+
+.search-form input:focus {
+    outline: none;
+}
+
+.search-input-label {
+    display: flex;
+    padding-left: 1rem;
 }

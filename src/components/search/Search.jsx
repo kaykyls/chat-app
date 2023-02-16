@@ -3,12 +3,10 @@ import "./index.css"
 
 const Search = () => {
   return (
-    <div className='form-container'>
+    <div className='search-form-container'>
       <form className='search-form' action="">
-        <input type="text" name="" id="" />
-        <button className='search-btn'>
-          <span class="material-symbols-outlined">search</span>
-        </button>
+        <label className='search-input-label' htmlFor="search-input"><span class="material-symbols-outlined">search</span></label>
+        <input placeholder='Search...' type="text" name="" id="search-input" />
       </form>
     </div>
   )
