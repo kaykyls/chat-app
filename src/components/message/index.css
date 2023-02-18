@@ -1,0 +1,31 @@
+.message-container {
+    padding: 1rem;
+}
+
+.chat-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 999px;
+}
+
+.contact-message, .user-message {
+    display: flex;
+    gap: .6rem;
+}
+
+.user-message {
+    flex-direction: row-reverse;
+}
+
+.text-bg {
+    background: var(--dark-secondary-color);
+    padding: 1rem 1.2rem;
+    border-radius: 0 999px 999px 999px ;
+}
+
+.user-message .text-bg {
+    background: var(--light-main-color);
+    padding: 1rem 1.2rem;
+    border-radius: 999px 0 999px 999px ;
+}

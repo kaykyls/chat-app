@@ -15,10 +15,10 @@ const Register = () => {
                     </div>
                     <input type="email" placeholder='Email'/>
                     <input type="password" placeholder='Password'/>
-                    <div className="file">
+                    {/* <div className="file">
                         <label htmlFor="input"><span className="material-symbols-outlined">add_a_photo</span><p>Add a photo</p></label>
                         <input type="file" id="input"/>
-                    </div>
+                    </div> */}
                     <button className="signup-btn">
                         Sign Up
                     </button>

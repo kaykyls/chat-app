@@ -1,4 +1,5 @@
 import logo from './logo.svg';
+import "bootstrap-icons/font/bootstrap-icons.css";
 import './App.css';
 import Register from './pages/register/Register';
 import Login from './pages/login/Login';
