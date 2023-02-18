@@ -1,4 +1,4 @@
-.message-container {
+.message {
     padding: 1rem;
 }
 
@@ -21,11 +21,12 @@
 .text-bg {
     background: var(--dark-secondary-color);
     padding: 1rem 1.2rem;
-    border-radius: 0 999px 999px 999px ;
+    border-radius: 0 2rem 2rem 2rem ;
+    max-width: 80%;
 }
 
 .user-message .text-bg {
     background: var(--light-main-color);
     padding: 1rem 1.2rem;
-    border-radius: 999px 0 999px 999px ;
+    border-radius: 2rem 0 2rem 2rem ;
 }

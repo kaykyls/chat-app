@@ -1,0 +1,28 @@
+.input-container {
+    display: flex;
+    background: var(--primary-color);
+}
+
+.input-wrapper {
+    padding: 1rem 2rem;
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+}
+
+.input-wrapper input {
+    border-radius: 999px;
+    width: 100%;
+    padding: .8rem 2rem;
+    border: none;
+    background: #e4e4e4;
+}
+
+.input-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.input-buttons button i{
+    font-size: 2rem;
+}

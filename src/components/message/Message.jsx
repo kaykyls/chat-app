@@ -4,7 +4,7 @@ import "./index.css"
 
 const Message = (props) => {
   return (
-    <div className='message-container'>
+    <div className='message'>
       <div className={props.isContactMessage ? "contact-message" : "user-message"}>
         <img className='chat-image' src={teste} alt="" />
         <div className="text-bg">
