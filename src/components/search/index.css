@@ -10,7 +10,7 @@
 
 .search-form-container {
     display: flex;
-    margin-top: 1rem;
+    padding: 1rem 0;
 }
 
 .search-form input {
