@@ -16,7 +16,7 @@ const Register = () => {
                     <input type="email" placeholder='Email'/>
                     <input type="password" placeholder='Password'/>
                     <div className="file">
-                        <label htmlFor="input"><span class="material-symbols-outlined">add_a_photo</span><p>Add a photo</p></label>
+                        <label htmlFor="input"><span className="material-symbols-outlined">add_a_photo</span><p>Add a photo</p></label>
                         <input type="file" id="input"/>
                     </div>
                     <button className="signup-btn">
