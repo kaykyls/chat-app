@@ -4,6 +4,12 @@
     gap: 1rem;
     border-bottom: 1px solid var(--secondary-color);
     cursor: pointer;
+    transition: .1s;
+}
+
+.chat:hover {
+    background: var(--secondary-color);
+    transition: .1s;
 }
 
 .contact-name {
