@@ -26,7 +26,8 @@
 }
 
 .user-message .text-bg {
-    background: var(--light-main-color);
+    background: var(--main-color);
+    color: #fff;
     padding: 1rem 1.2rem;
     border-radius: 2rem 0 2rem 2rem ;
 }
