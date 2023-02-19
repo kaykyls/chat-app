@@ -8,10 +8,10 @@ const Input = () => {
         <input type="text" placeholder='Type a message...'/>
         <div className="input-buttons">
           <button>
-            <i class="bi bi-paperclip"></i>
+            <i className="bi bi-paperclip"></i>
           </button>
           <button>
-            <i class="bi bi-camera-fill"></i>
+            <i className="bi bi-camera-fill"></i>
           </button>
         </div>
       </div>

@@ -11,10 +11,10 @@ const Info = () => {
           </div>
           <div className="contact-buttons">
             <button>
-              <i class="bi bi-camera-video-fill"></i>
+              <i className="bi bi-camera-video-fill"></i>
             </button>
             <button>
-              <i class="bi bi-telephone-fill"></i>
+              <i className="bi bi-telephone-fill"></i>
             </button>
           </div>
         </div>
