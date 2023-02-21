@@ -11,7 +11,7 @@ const Chats = () => {
       <Contact img={teste} contactName={"Manoel Gomes"} lastMessage={"Olha se você não ama"} time={"00:00h"}/>
       <Contact img={teste} contactName={"Manoel Gomes"} lastMessage={"Caneta azul, azul caneta"} time={"06:11h"}/>
       <Contact img={teste} contactName={"Manoel Gomes"} lastMessage={"Eu vou deixar de ser besta"} time={"13:48h"}/>
-      <Contact img={teste} contactName={"Manoel Gomes"} lastMessage={"Ela é muito é vagabunda"} time={"12:34h"}/>     
+      <Contact img={teste} contactName={"Manoel Gomes"} lastMessage={"Ela é muito é vagabunda"} time={"12:34h"}/>      
     </div>
   )
 }
