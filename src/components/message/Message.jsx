@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import teste from "./teste.jpg"
 import "./index.css"
+import { AuthContext } from '../../context/authContext'
 
 const Message = (props) => {
+  const {currentUser} = useContext(AuthContext)
+
   return (
     <div className='message'>
       <div className={props.isContactMessage ? "contact-message" : "user-message"}>

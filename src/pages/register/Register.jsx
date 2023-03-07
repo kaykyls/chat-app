@@ -1,9 +1,12 @@
 import React, { useRef, useState } from 'react'
 import "./index.css"
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { updateProfile } from "firebase/auth";
 import { auth, storage, db } from "../../firebase.js"
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { Link, useNavigate } from 'react-router-dom';
+
 
 const Register = () => {
     const [err, setErr] = useState(false)
@@ -13,6 +16,9 @@ const Register = () => {
     const [lastName, setLastName] = useState("")
     const [file, setFile] = useState(null)
     const [displayName, setDisplayName] = useState("")
+    const [url, setUrl] = useState(null)
+
+    const navigate = useNavigate()
 
     console.log(file)
 
@@ -21,10 +27,11 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        setDisplayName(firstName + lastName)
+        const fullName = firstName + " " + lastName
+        setDisplayName(fullName)
 
         if(password !== checkPassword.current.value) {
-            alert("diferente")
+            alert("Passwords do not match")
             return
         }
 
@@ -33,30 +40,45 @@ const Register = () => {
             return
         }
 
-        try {
-            const res = await createUserWithEmailAndPassword(auth, email, password)
+        const auth = getAuth();
+        createUserWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            const user = userCredential.user;
 
-            const storageRef = ref(storage, displayName);
+            console.log(user)
 
-            await uploadBytesResumable(storageRef, file).then(() => {
-                getDownloadURL(storageRef).then(async (downloadURL) => {
-                        await updateProfile(res.user, {
-                            displayName,
-                            photoURL: downloadURL
-                        })
-                        await setDoc(doc(db, "users", res.user.uid),{
-                            uid: res.user.uid,
-                            displayName,
-                            email,
-                            photoURL: downloadURL
-                        })
-                    });
-                }
-            )
+            const imageRef = ref(storage, "image");
+            uploadBytes(imageRef, file)
+              .then(() => {
+                getDownloadURL(imageRef)
+                  .then((url) => {
+                    setUrl(url);
+                  })
+                  .catch((error) => {
+                    console.log(error.message, "error getting the image url");
+                  });
+                setFile(null);
+              })
+              .catch((error) => {
+                console.log(error.message);
+            });
 
-        } catch(err) {
-            setErr(true)
-        }
+            updateProfile(user, {
+              displayName: displayName, photoURL: url
+            }).then(() => {
+              // Profile updated!
+              // ...
+            }).catch((error) => {
+              // An error occurred
+              // ...
+          });
+
+            console.log(user)
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+          });
     }
 
     return (
@@ -66,6 +88,7 @@ const Register = () => {
                     <span>Chat App</span>
                     <h1>Create new account</h1>
                     <form onSubmit={handleSubmit} className='form' action="">
+                      {/* <img src={url} alt="" /> teste */}
                         <div className="name">
                             <input onChange={(e) => setFirstName(e.target.value)} type="text" placeholder='First name'/>
                             <input onChange={(e) => setLastName(e.target.value)} type="text" placeholder='Last name'/>
@@ -81,7 +104,7 @@ const Register = () => {
                             Sign Up
                         </button>
                     </form>
-                    <span className='signin'>Already a member? <a href='/'>Sing In</a></span>
+                    <span className='signin'>Already a member? <Link to={"/login"}>Sing In</Link></span>
                 </div>
             </div>
             <div className="image-div"></div>
