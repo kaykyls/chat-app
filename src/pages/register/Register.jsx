@@ -21,7 +21,6 @@ const Register = () => {
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
     const [file, setFile] = useState(null)
-    const [displayName, setDisplayName] = useState("")
     const [url, setUrl] = useState(null)
     const [errorMsg, setErrorMsg] = useState("")
     const [viewPassword, setViewPassword] = useState(false)
@@ -38,7 +37,6 @@ const Register = () => {
         e.preventDefault()
 
         const fullName = firstName + " " + lastName
-        setDisplayName(fullName)
 
         if(password !== checkPassword.current.value) {
             setError(true)
@@ -72,6 +70,15 @@ const Register = () => {
                 getDownloadURL(imageRef)
                   .then((url) => {
                     setUrl(url);
+                    updateProfile(user, {
+                      displayName: fullName, photoURL: url
+                    }).then(() => {
+                      // Profile updated!
+                      // ...
+                    }).catch((error) => {
+                      console.log(error.message);
+                      err = true
+                    });
                   })
                   .catch((error) => {
                     console.log(error.message, "error getting the image url");
@@ -83,18 +90,9 @@ const Register = () => {
                 err = true
             });
 
-            updateProfile(user, {
-              displayName: displayName, photoURL: url
-            }).then(() => {
-              // Profile updated!
-              // ...
-            }).catch((error) => {
-              console.log(error.message);
-              err = true
-          });
             if(!err) {
               err = false
-              navigate("/")
+              navigate("/login")
             }
           })
           .catch((error) => {
@@ -105,8 +103,6 @@ const Register = () => {
               setErrorMsg("Email already in use")
             }
           });
-
-          
     }
 
     const handleViewPassword = (view) => {
@@ -138,8 +134,8 @@ const Register = () => {
                     <form onSubmit={handleSubmit} className='form' action="">
                       {/* <img src={url} alt="" /> teste */}
                         <div className="name">
-                            <input onChange={(e) => setFirstName(e.target.value)} type="text" placeholder='First name'/>
-                            <input onChange={(e) => setLastName(e.target.value)} type="text" placeholder='Last name'/>
+                            <input onChange={(e) => setFirstName(e.target.value)} value={firstName} type="text" placeholder='First name'/>
+                            <input onChange={(e) => setLastName(e.target.value)} value={lastName} type="text" placeholder='Last name'/>
                         </div>
                         <input onChange={(e) => setEmail(e.target.value)} value={email} type="email" placeholder='Email'/>
                         <div className="password-div">
