@@ -64,7 +64,8 @@ const Register = () => {
 
             console.log(user)
 
-            const imageRef = ref(storage, "image");
+            const date = new Date().getTime();
+            const imageRef = ref(storage, `${fullName} ${date}`);
             uploadBytes(imageRef, file)
               .then(() => {
                 getDownloadURL(imageRef)
