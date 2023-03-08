@@ -6,10 +6,16 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { Link, useNavigate } from 'react-router-dom';
-
+// import { signOut } from "firebase/auth";
 
 const Register = () => {
-    const [err, setErr] = useState(false)
+  // signOut(auth).then(() => {
+  //   // Sign-out successful.
+  // }).catch((error) => {
+  //   // An error happened.
+  // });
+
+    const [error, setError] = useState(false)
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [firstName, setFirstName] = useState("")
@@ -17,12 +23,16 @@ const Register = () => {
     const [file, setFile] = useState(null)
     const [displayName, setDisplayName] = useState("")
     const [url, setUrl] = useState(null)
+    const [errorMsg, setErrorMsg] = useState("")
+    const [viewPassword, setViewPassword] = useState(false)
+    const [viewCheckPassword, setViewCheckPassword] = useState(false)
 
     const navigate = useNavigate()
 
     console.log(file)
 
     const checkPassword = useRef()
+    const passwordRef = useRef()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -31,15 +41,24 @@ const Register = () => {
         setDisplayName(fullName)
 
         if(password !== checkPassword.current.value) {
-            alert("Passwords do not match")
+            setError(true)
+            setErrorMsg("Passwords do not match")
             return
         }
 
         if(password.length < 8) {
-            alert("Your password must have 8 characters or more")
+            setError(true)
+            setErrorMsg("Your password must have 8 characters or more")
             return
         }
 
+        handleViewPassword(false)
+        handleViewCheckPassword(false)
+
+        setError(false)
+        setErrorMsg("")
+
+        let err = false
         const auth = getAuth();
         createUserWithEmailAndPassword(auth, email, password)
           .then((userCredential) => {
@@ -61,6 +80,7 @@ const Register = () => {
               })
               .catch((error) => {
                 console.log(error.message);
+                err = true
             });
 
             updateProfile(user, {
@@ -69,16 +89,44 @@ const Register = () => {
               // Profile updated!
               // ...
             }).catch((error) => {
-              // An error occurred
-              // ...
+              console.log(error.message);
+              err = true
           });
-
-            console.log(user)
+            if(!err) {
+              err = false
+              navigate("/")
+            }
           })
           .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
+            err = true
+
+            setError(true)
+            if(error.message === "Firebase: Error (auth/email-already-in-use).") {
+              setErrorMsg("Email already in use")
+            }
           });
+
+          
+    }
+
+    const handleViewPassword = (view) => {
+      setViewPassword(view)
+      
+      if(view) {
+        passwordRef.current.type = "text"
+        return
+      }
+      passwordRef.current.type = "password"
+    }
+
+    const handleViewCheckPassword = (view) => {
+      setViewCheckPassword(view)
+      
+      if(view) {
+        checkPassword.current.type = "text"
+        return
+      }
+      checkPassword.current.type = "password"
     }
 
     return (
@@ -94,12 +142,24 @@ const Register = () => {
                             <input onChange={(e) => setLastName(e.target.value)} type="text" placeholder='Last name'/>
                         </div>
                         <input onChange={(e) => setEmail(e.target.value)} value={email} type="email" placeholder='Email'/>
-                        <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder='Password'/>
-                        <input ref={checkPassword} type="password" placeholder='Confirm password'/>
+                        <div className="password-div">
+                          <input ref={passwordRef} className='password-input' onChange={(e) => setPassword(e.target.value)} type="password" placeholder='Password'/>
+                          <button type='button' className="eye-button">
+                            {viewPassword ? <i onClick={() => handleViewPassword(false)} className="bi bi-eye-slash-fill"></i> : <i onClick={() => handleViewPassword(true)} className="bi bi-eye-fill"></i>}
+                          </button>
+                        </div>
+                        <div className="password-div">
+                          <input className='password-input' ref={checkPassword} type="password" placeholder='Confirm password'/>
+                          <button type='button' className="eye-button">
+                            {viewCheckPassword ? <i onClick={() => handleViewCheckPassword(false)} className="bi bi-eye-slash-fill"></i> : <i onClick={() => handleViewCheckPassword(true)} className="bi bi-eye-fill"></i>}
+                          </button>
+                        </div>
+                        
                         <div className="file">
                             <label htmlFor="input"><span className="material-symbols-outlined">add_a_photo</span><p>Add a photo</p></label>
                             <input onChange={(e) => setFile(e.target.files[0])} type="file" id="input"/>
                         </div>
+                        {error && <span className='error-msg'>{errorMsg}</span>}
                         <button className="signup-btn">
                             Sign Up
                         </button>

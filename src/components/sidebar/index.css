@@ -4,3 +4,63 @@
     flex-direction: column;
     height: 100vh;
 }
+
+.user-info {
+    display: flex;
+    padding: 1rem 2rem 0 2rem;
+    justify-content: space-between;
+    position: relative;
+}
+
+.user-info img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 999px;
+    border: 1px solid #000;
+}
+
+.user-info span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+}
+
+.edit-user-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-user-info i {
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.user-name-pic {
+    display: flex;
+    gap: 1rem;
+}
+
+.dropdown {
+    position: absolute;
+    width: 200px;
+    background: rgba(228, 228, 228, 0.7);
+    right: 2rem;
+    top: 5rem;
+    border-radius: 6px;
+}
+
+.option {
+
+    display: flex;
+    padding: .5rem 1rem;
+    gap: .5rem;
+    color: #000;
+    cursor: pointer;
+}
+
+.option span, .option i {
+    font-size: 1.1rem
+}
