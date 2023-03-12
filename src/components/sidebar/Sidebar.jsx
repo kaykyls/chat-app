@@ -15,14 +15,14 @@ const Sidebar = () => {
 
   const {currentUser} = useContext(AuthContext)
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if(user) {
-        setDisplayName(user.displayName)
-        setImgURL(user.photoURL)
-      }
-    })
-  }, [currentUser])
+  // useEffect(() => {
+  //   onAuthStateChanged(auth, (user) => {
+  //     if(user) {
+  //       setDisplayName(user.displayName)
+  //       setImgURL(user.photoURL)
+  //     }
+  //   })
+  // }, [currentUser])
 
   const handleSignOut = () => {
     signOut(auth).then(() => {
@@ -44,9 +44,9 @@ const Sidebar = () => {
     <div className='sidebar'>
       <div className="user-info">
         <div className="user-name-pic">
-          <img src={imgURL} alt="" />
+          <img src={currentUser.photoURL} alt="" />
           <span className='user-name'>
-            {displayName}
+            {currentUser.displayName}
           </span>
         </div>
         <div className="edit-user-info">

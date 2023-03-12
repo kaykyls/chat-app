@@ -6,14 +6,14 @@ import { AuthContext } from '../../context/authContext'
 import "./index.css"
 
 const Home = () => {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
-  const {currentUser} = useContext(AuthContext)
+  // const {currentUser} = useContext(AuthContext)
 
-  if(!currentUser){
-    navigate("/login")
-    return
-  }
+  // if(!currentUser){
+  //   navigate("/login")
+  //   return
+  // }
   
   return (
     <div className='home'>

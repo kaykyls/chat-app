@@ -79,7 +79,8 @@ const Register = () => {
                     }).catch((error) => {
                       console.log(error.message);
                       err = true
-                    });
+                    })
+                    .then(setDoc(doc(db, "userChats", user.uid), {}))
                   })
                   .catch((error) => {
                     console.log(error.message, "error getting the image url");
