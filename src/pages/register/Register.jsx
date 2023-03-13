@@ -127,6 +127,14 @@ const Register = () => {
       checkPassword.current.type = "password"
     }
 
+    const handleFocus = (e) => {
+      // e.target.parentNode.style = "border: 2px solid #000; border-radius: 1rem"
+    }
+
+    const handleBlur = (e) => {
+      // e.target.parentNode.style = ""
+    }
+
     return (
         <div className="content-grid">
             <div className='form-container'>
@@ -141,7 +149,7 @@ const Register = () => {
                         </div>
                         <input onChange={(e) => setEmail(e.target.value)} value={email} type="email" placeholder='Email'/>
                         <div className="password-div">
-                          <input ref={passwordRef} className='password-input' onChange={(e) => setPassword(e.target.value)} type="password" placeholder='Password'/>
+                          <input onBlur={(e) => handleBlur(e)} onFocus={(e) => handleFocus(e)} ref={passwordRef} className='password-input' onChange={(e) => setPassword(e.target.value)} type="password" placeholder='Password'/>
                           <button type='button' className="eye-button">
                             {viewPassword ? <i onClick={() => handleViewPassword(false)} className="bi bi-eye-slash-fill"></i> : <i onClick={() => handleViewPassword(true)} className="bi bi-eye-fill"></i>}
                           </button>
