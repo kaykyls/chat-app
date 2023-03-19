@@ -1,12 +1,26 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { auth } from '../../firebase'
 import { getAuth } from "firebase/auth";
-import * as admin from "firebase-admin";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  setDoc,
+  doc,
+  updateDoc,
+  serverTimestamp,
+  getDoc,
+} from "firebase/firestore";
+import { db } from "../../firebase";
+import { AuthContext } from '../../context/authContext';
+
 import "./index.css"
 
 const Search = () => {
   const [username, setUsername] = useState("")
-  const [users, setUsers] = useState([])
+  const [user, setUser] = useState(null)
+  const { currentUser } = useContext(AuthContext)
 
   const handleChange = (e) => {
     setUsername(e.target.value)
@@ -14,31 +28,21 @@ const Search = () => {
 
   const handleSearch = async (e) => {
     e.preventDefault()
-// inicializar la aplicación de administración de Firebase
-    admin.initializeApp();
-
-    // obtener una lista de todos los usuarios
-    admin.auth().listUsers()
-      .then((userRecords) => {
-        userRecords.forEach((user) => {
-          console.log(user.toJSON());
+      
+      const q = query(
+        collection(db, "users"),
+        where("displayName", "==", username)
+      );
+  
+      try {
+        const querySnapshot = await getDocs(q)
+        querySnapshot.forEach((doc) => {
+          setUser(doc.data());
+          console.log(doc.data())
         });
-      })
-      .catch((error) => {
-        console.log('Error listing users:', error);
-      });
-
-        // try {
-        //   const listUsersResult = await getAuth().listUsers();
-        //   listUsersResult.users.forEach((user) => {
-        //     if(user.displayName === username) {
-        //       setUsers(user)
-        //     }
-        //     console.log(user)
-        //   })
-        //   } catch (error) {
-        //     console.log('Error listing users:', error);
-        // }
+      } catch (error) {
+        console.log(error)
+      }
   }
 
   return (
@@ -47,13 +51,13 @@ const Search = () => {
         <label className='search-input-label' htmlFor="search-input"><span className="material-symbols-outlined">search</span></label>
         <input value={username} onChange={(e) => handleChange(e)} placeholder='Search...' type="text" name="" id="search-input" />
       </form>
-      {users && 
-      users.forEach((user) => {
+      {user && 
+      // users.forEach((user) => {
         <div className="searched-user">
           <img src={user.photoURL} alt="" />
           <span>{user.displayName}</span>
         </div>
-      })}
+      }
     </div>
   )
 }

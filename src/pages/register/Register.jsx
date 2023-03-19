@@ -81,6 +81,12 @@ const Register = () => {
                       err = true
                     })
                     .then(setDoc(doc(db, "userChats", user.uid), {}))
+                    .then(setDoc(doc(db, "users", user.uid), {
+                      uid: user.uid,
+                      displayName: fullName,
+                      email: user.email,
+                      photoURL: url
+                    }))
                   })
                   .catch((error) => {
                     console.log(error.message, "error getting the image url");
