@@ -1,13 +1,13 @@
-import React from 'react'
 import teste from "./teste.jpg"
 
-const Info = () => {
+const Info = (props) => {
+
   return (
     <div className="chat-info-container">
         <div className="chat-info-wrapper">
           <div className="contact-info">
-            <img src={teste} alt="" />
-            <span>Manoel Gomes</span>
+            <img src={props.img} alt="" />
+            <span>{props.name}</span>
           </div>
           <div className="contact-buttons">
             <button>
