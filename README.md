@@ -1,2 +1,2 @@
 # Em desenvolvimento
-## Até o momento apenas o cadastro e login de usuários funcionam, também é possível visualizar o desing do chat com sua foto e nome ao fazer login
+## Até o momento é possível realizar o cadastro e login de usuários, também já é realizar o envio de mensagens e busacar por usuários com base no nome
