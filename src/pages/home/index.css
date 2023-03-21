@@ -3,3 +3,17 @@
     grid-template-columns: 1fr 2fr;
     height: 100vh;
 }
+
+
+@media (max-width: 700px) {
+    .container {
+        display: flex;
+        flex: 1;
+        width: 100vw;
+    }
+
+    .home {
+        display: flex;
+        align-items: center;
+    }
+}

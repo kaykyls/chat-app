@@ -1,18 +1,20 @@
-import React, { useContext } from 'react'
-import teste from "./teste.jpg"
+import React, { useEffect, useRef } from 'react'
 import "./index.css"
-import { AuthContext } from '../../context/authContext'
 
 const Message = (props) => {
-  const {currentUser} = useContext(AuthContext)
+  const ref = useRef()
+
+  useEffect(() => {
+    ref.current?.scrollIntoView()
+  }, [props.message])
 
   return (
-    <div className='message'>
+    <div ref={ref} className='message'>
       <div className={props.isContactMessage ? "contact-message" : "user-message"}>
-        <img className='chat-image' src={teste} alt="" />
+        <img className='chat-image' src={props.img} alt="" />
         <div className="text-bg">
           <span className='text'>
-            la ele
+            {props.message}
           </span>
         </div>
       </div>

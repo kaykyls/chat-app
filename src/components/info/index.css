@@ -1,0 +1,13 @@
+.return-btn i {
+    font-size: 1.3rem;
+}
+
+.return-btn {
+    display: none;
+}
+
+@media (max-width: 700px) {
+    .return-btn {
+        display: block;
+    }
+}

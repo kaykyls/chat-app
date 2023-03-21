@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { Fragment, useContext, useEffect, useState } from 'react'
 import Contact from '../contact/Contact'
 import teste from "./teste.jpg"
 import { doc, onSnapshot } from "firebase/firestore";
@@ -27,23 +27,17 @@ const Chats = () => {
     currentUser.uid && getChats();
   }, [currentUser.uid])
 
-  
-
   const handleSelect = (u) => {
     dispatch({type:"CHANGE_USER", payload: u})
   }
 
   return (
     <div className='chats'>
-      {Object.entries(chats)?.map((chat) => (
-        <div onClick={() => handleSelect(chat[1].userInfo)}>
-          <Contact key={chat[0]} img={chat[1].userInfo.photoURL} contactName={chat[1].userInfo.displayName} lastMessage={chat[1].lastMessage?.text} time={"00:00h"}/>
+      {Object.entries(chats)?.sort((a, b) => b[1].date - a[1].date).map((chat, index) => (
+        <div key={index} onClick={() => handleSelect(chat[1].userInfo)}>
+          <Contact key={chat[0]} img={chat[1].userInfo.photoURL} contactName={chat[1].userInfo.displayName} lastMessage={chat[1].lastMessage?.text} time={chat[1].date}/>
         </div>
       ))}
-      <Contact img={teste} contactName={"Manoel Gomes"} lastMessage={"Olha se você não ama"} time={"00:00h"}/>
-      {/* <Contact img={teste} contactName={"Manoel Gomes"} lastMessage={"Caneta azul, azul caneta"} time={"06:11h"}/>
-      <Contact img={teste} contactName={"Manoel Gomes"} lastMessage={"Eu vou deixar de ser besta"} time={"13:48h"}/>
-      <Contact img={teste} contactName={"Manoel Gomes"} lastMessage={"Ela é muito é vagabunda"} time={"12:34h"}/>       */}
     </div>
   )
 }

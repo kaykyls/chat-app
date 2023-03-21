@@ -48,8 +48,10 @@ const Search = () => {
       setUser(null)
 
       querySnapshot.forEach((doc) => {
+        if(doc.data().uid === currentUser.uid)
+        return
+
         setUser(doc.data());
-        console.log("entrou")
       });
     } catch (error) {
       console.log(error)

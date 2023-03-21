@@ -2,6 +2,8 @@ import React from 'react'
 import "./index.css"
 
 const Contact = (props) => {
+  console.log(props.time)
+
   return (
     <div className='chat'>
       <img className='contact-image' src={props.img} alt="" />
@@ -10,7 +12,7 @@ const Contact = (props) => {
           {props.contactName}
         </h3>
         <p>{props.lastMessage}</p>
-        <span className='last-message-time'>{props.time}</span>
+        <span className='last-message-time'>{}</span>
       </div>
     </div>
   )

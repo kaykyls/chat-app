@@ -3,6 +3,7 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 }
 
 .chat-info-wrapper {
@@ -53,4 +54,33 @@ button {
 
 .chat-info-container {
     box-shadow: 0 2px 2px -2px var(--dark-secondary-color);
+}
+
+.select-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}
+
+.select-message span {
+    background: var(--dark-secondary-color);
+    padding: .5rem 1.8rem;
+    border-radius: 1rem;
+    font-size: 1rem;
+}
+
+@media (max-width: 700px) {
+    .chat-bg{
+        display: none;
+    }
+
+    .selected {
+        display: flex !important;
+        width: 100vw;
+    }
+
+    .return-btn {
+        display: block;
+    }
 }

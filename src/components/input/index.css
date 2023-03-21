@@ -23,6 +23,11 @@
     gap: 1rem;
 }
 
-.input-buttons button i{
+.input-buttons i{
     font-size: 2rem;
+    cursor: pointer;
+}
+
+#file {
+    display: none;
 }

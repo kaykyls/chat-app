@@ -7,22 +7,16 @@ import { auth } from '../../firebase'
 import { signOut } from "firebase/auth";
 import { AuthContext } from '../../context/authContext'
 import { onAuthStateChanged } from "firebase/auth";
+import { ChatContext } from '../../context/chatContext'
 
 const Sidebar = () => {
+  const { data } = useContext(ChatContext)
+
   const [dropdownIsDown, setDropdownIsDown] = useState(false)
   const [imgURL, setImgURL] = useState("")
   const [displayName, setDisplayName] = useState("")
 
   const {currentUser} = useContext(AuthContext)
-
-  // useEffect(() => {
-  //   onAuthStateChanged(auth, (user) => {
-  //     if(user) {
-  //       setDisplayName(user.displayName)
-  //       setImgURL(user.photoURL)
-  //     }
-  //   })
-  // }, [currentUser])
 
   const handleSignOut = () => {
     signOut(auth).then(() => {
@@ -41,7 +35,7 @@ const Sidebar = () => {
   }
   
   return (
-    <div className='sidebar'>
+    <div className={`sidebar${data.chatId !== "null" ? " hidden" : ""}`}>
       <div className="user-info">
         <div className="user-name-pic">
           <img src={currentUser.photoURL} alt="" />
