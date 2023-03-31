@@ -31,7 +31,7 @@ Make sure you have installed all of the following prerequisites:
 git clone https://github.com/kaykyls/chat-app.git
 
 # Select the project directory
-cd todo-list
+cd chat-app
 
 # Install the dependencies
 npm install
