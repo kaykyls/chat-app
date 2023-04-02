@@ -45,15 +45,14 @@
 
 .dropdown {
     position: absolute;
-    width: 200px;
+    width: 280px;
     background: rgba(228, 228, 228, 0.7);
-    right: 2rem;
-    top: 5rem;
+    right: 1rem;
+    top: 6rem;
     border-radius: 6px;
 }
 
 .option {
-
     display: flex;
     padding: .5rem 1rem;
     gap: .5rem;
@@ -62,7 +61,12 @@
 }
 
 .option span, .option i {
-    font-size: 1.1rem
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+#update-pic-input {
+    display: none;
 }
 
 @media (max-width: 700px) {

@@ -1,12 +1,13 @@
 import React from 'react'
 import "./index.css"
+import account from "./account.jpg"
 
 const Contact = (props) => {
-  console.log(props.time)
+  console.log(props.img)
 
   return (
     <div className='chat'>
-      <img className='contact-image' src={props.img} alt="" />
+      <img className='contact-image' src={props.img === null ? account : props.img} alt="" />
       <div className="last-message">
         <h3 className='contact-name'>
           {props.contactName}

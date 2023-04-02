@@ -8,6 +8,12 @@ import { signOut } from "firebase/auth";
 import { AuthContext } from '../../context/authContext'
 import { onAuthStateChanged } from "firebase/auth";
 import { ChatContext } from '../../context/chatContext'
+import { storage } from "../../firebase.js"
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
+import { updateProfile } from "firebase/auth";
+import { updateDoc, doc } from "firebase/firestore";
+import { db } from "../../firebase.js";
+import ImagePreview from '../imagePreview/ImagePreview'
 
 const Sidebar = () => {
   const { data } = useContext(ChatContext)
@@ -15,6 +21,7 @@ const Sidebar = () => {
   const [dropdownIsDown, setDropdownIsDown] = useState(false)
   const [imgURL, setImgURL] = useState("")
   const [displayName, setDisplayName] = useState("")
+  const [file, setFile] = useState(null)
 
   const {currentUser} = useContext(AuthContext)
 
@@ -34,6 +41,37 @@ const Sidebar = () => {
     setDropdownIsDown(true)
   }
   
+  const handleUpdatePicture = async () => {
+    try {
+
+      const date = new Date().getTime();
+      const imageRef = ref(storage, `${currentUser.userName} ${date}`);
+
+      await uploadBytes(imageRef, file);
+
+      let photoURL = null
+      if(file) {
+        const url = await getDownloadURL(imageRef);
+        photoURL = url
+      }
+
+      await updateProfile(currentUser, {
+        photoURL: photoURL
+      });
+
+      await updateDoc(doc(db, "users", currentUser.uid), {
+        photoURL: photoURL
+      })
+
+    } catch (error) {
+      console.log(error)
+    }
+
+    setFile(null)
+  }
+
+  console.log(file)
+
   return (
     <div className={`sidebar${data.chatId !== "null" ? " hidden" : ""}`}>
       <div className="user-info">
@@ -51,8 +89,16 @@ const Sidebar = () => {
             <i className="bi bi-box-arrow-right"></i>
             <span>sign out</span>
           </div>
+          <div className="option" onClick={handleUpdatePicture}>
+            <i className="bi bi-image"></i>
+            <label htmlFor="update-pic-input">
+              <span>Update profile picture</span>
+            </label>
+            <input value={""} onChange={(e) => setFile(e.target.files[0])} type="file" name='update-pic-input' id='update-pic-input'/>
+          </div>
         </div>}
       </div>
+      {file && <ImagePreview setImg={setFile} handleUpdatePicture={handleUpdatePicture} img={file} updatePic={true}/>}
       <Search/>
       <Chats/>
     </div>

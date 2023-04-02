@@ -8,14 +8,21 @@ const Message = (props) => {
     ref.current?.scrollIntoView()
   }, [props.message])
 
+  console.log(props.messageImg)
+
   return (
-    <div ref={ref} className='message'>
+    <div ref={ref} className={`message${props.messageImg !== undefined ? " image-msg" : ""}`}>
       <div className={props.isContactMessage ? "contact-message" : "user-message"}>
         <img className='chat-image' src={props.img} alt="" />
         <div className="text-bg">
-          <span className='text'>
-            {props.message}
-          </span>
+          {props.message !== "" &&
+            <span className='text'>
+              {props.message}
+            </span>
+          }
+          {props.messageImg && 
+            <img src={props.messageImg}/>
+          }
         </div>
       </div>
     </div>

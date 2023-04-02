@@ -1,13 +1,10 @@
 import { useContext } from "react"
 import { ChatContext } from "../../context/chatContext"
 import "./index.css"
+import account from "./account.jpg"
 
 const Info = (props) => {
   const { dispatch } = useContext(ChatContext)
-  const { data } = useContext(ChatContext)
-
-  console.log(data)
-
 
   const handleReturn = () => {
     const INITIAL_STATE = {
@@ -24,7 +21,7 @@ const Info = (props) => {
         <div className="chat-info-wrapper">
           <div className="contact-info">
             <button onClick={handleReturn} className="return-btn"><i className="bi bi-arrow-left"></i></button>
-            <img src={props.img} alt="" />
+            <img src={props?.img === null ? account : props.img} alt="" />
             <span>{props.name}</span>
           </div>
           <div className="contact-buttons">

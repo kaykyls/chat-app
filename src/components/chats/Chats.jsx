@@ -1,6 +1,5 @@
-import React, { Fragment, useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Contact from '../contact/Contact'
-import teste from "./teste.jpg"
 import { doc, onSnapshot } from "firebase/firestore";
 import { AuthContext } from '../../context/authContext';
 import { db } from "../../firebase";

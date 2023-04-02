@@ -42,13 +42,26 @@ const Login = () => {
 
     const handleViewPassword = (view) => {
         setViewPassword(view)
-        
+
         if(view) {
           passwordRef.current.type = "text"
           return
         }
         passwordRef.current.type = "password"
-      }
+        document.querySelector(".eye-button").classList.remove("hidden")
+    }
+
+    // const handleFocus = () => {
+    //     document.querySelector(".eye-button").classList.remove("hidden")
+    // }
+
+    // const handleBlur = () => {
+    //     console.log(viewPassword)
+    //     if(viewPassword) return
+    //     console.log("entrou")
+    //     document.querySelector(".eye-button").classList.add("hidden")
+    //     setViewPassword(false)
+    // }
 
   return (
     <div className="login-content-grid">
@@ -56,21 +69,22 @@ const Login = () => {
             <div className="form-wrapper">
                 <span>Chat App</span>
                 <h1>Login</h1>
-                <form onSubmit={handleSubmit} className='form' action="">
-                    <input onChange={(e) => setEmail(e.target.value)} type="email" placeholder='Email'/>
+                <form onSubmit={handleSubmit} className='login-form' action="">
+                    <input className='email-input' onChange={(e) => setEmail(e.target.value)} type="email" placeholder='Email'/>
                     <div className="password-div">
+                        {/* <input ref={passwordRef} onFocus={handleFocus} onBlur={handleBlur} className='password-input' onChange={(e) => setPassword(e.target.value)} type="password" placeholder='Password'/> */}
                         <input ref={passwordRef} className='password-input' onChange={(e) => setPassword(e.target.value)} type="password" placeholder='Password'/>
                         <button type='button' className="eye-button">
                             {viewPassword ? <i onClick={() => handleViewPassword(false)} className="bi bi-eye-slash-fill"></i> : <i onClick={() => handleViewPassword(true)} className="bi bi-eye-fill"></i>}
                         </button>
                     </div>
                     {error && <span className='error-msg'>{errorMsg}</span>}
-                    <span><a href="/">Forgot password?</a></span>
+                    <span className='forgot-password-btn'><a href="/">Forgot password?</a></span>
                     <button className="signup-btn">
                         Sign In
                     </button>
                 </form>
-                <span className='signin'>Don't have an account? <Link to={"/register"}>Sing Up</Link></span>
+                <span className='signin-sign-up'>Don't have an account? <Link to={"/register"}>Sing Up</Link></span>
             </div>
         </div>
         <div className="login-image-div"></div>

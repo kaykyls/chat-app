@@ -79,8 +79,4 @@ button {
         display: flex !important;
         width: 100vw;
     }
-
-    .return-btn {
-        display: block;
-    }
 }

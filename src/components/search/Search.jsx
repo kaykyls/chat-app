@@ -14,6 +14,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase";
 import { AuthContext } from '../../context/authContext';
+import account from "./account.jpg"
 
 import "./index.css"
 
@@ -35,7 +36,7 @@ const Search = () => {
 
     const q = query(
       collection(db, "users"),
-      where("displayName", "==", username)
+      where("username", "==", username)
     );
 
 
@@ -73,7 +74,7 @@ const Search = () => {
           [combinedId + ".userInfo"]: {
             uid: user.uid,
             displayName: user.displayName,
-            photoURL: user.photoURL,
+            photoURL: user.photoURL === null ? null : user.photoURL,
           },
           [combinedId + ".date"]: serverTimestamp(),
         })
@@ -82,7 +83,7 @@ const Search = () => {
           [combinedId + ".userInfo"]: {
             uid: currentUser.uid,
             displayName: currentUser.displayName,
-            photoURL: currentUser.photoURL,
+            photoURL: currentUser.photoURL ? currentUser.photoURL : null,
           },
           [combinedId + ".date"]: serverTimestamp(),
         })
@@ -103,10 +104,12 @@ const Search = () => {
       </form>
       {loader && <div className='loader-container'><div className="loader"><div></div><div></div><div></div><div></div></div></div>}
       {user && 
-      // users.forEach((user) => {
         <div className="searched-user" onClick={handleSelect}>
-          <img src={user.photoURL} alt="" />
-          <span>{user.displayName}</span>
+          <img src={user.photoURL === null ? account : user.photoURL} alt="" />
+          <div className="searched-user-info">
+            <span className='searched-user-name'>{user.displayName}</span>
+            <span className='searched-user-username'>{user.username}</span>
+          </div>
         </div>
       }
     </div>

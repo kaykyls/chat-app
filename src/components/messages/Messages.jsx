@@ -30,7 +30,8 @@ const Messages = () => {
           key={message[1].id}
           message={message[1].text}
           img={message[1].senderId === currentUser.uid ? currentUser.photoURL : data.user.photoURL}
-          isContactMessage={message[1].senderId !== currentUser.uid}  
+          isContactMessage={message[1].senderId !== currentUser.uid}
+          messageImg={message[1].img}
         />
       )})}
     </div>

@@ -4,6 +4,7 @@ import { AuthContext } from '../../context/authContext'
 import { ChatContext } from '../../context/chatContext'
 import { v4 as uuid} from "uuid"
 import { db, storage } from "../../firebase.js"
+import ImagePreview from '../imagePreview/ImagePreview'
 import "./index.css"
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 
@@ -14,64 +15,74 @@ const Input = () => {
   const [text, setText] = useState("")
   const [img, setImg] = useState(null)
 
+  console.log(img)
+
   const handleSubmit = async (e) => {
     e.preventDefault()
+    
+    const storageRef = ref(storage, uuid())
+    const uploadTask = uploadBytesResumable(storageRef, img);
 
-    if(img) {
-      const storageRef = ref(storage, uuid())
+    console.log(uploadTask.on)
 
-      const uploadTask = uploadBytesResumable(storageRef, img);
-
-      uploadTask.on(
-        (error) => {
-          //TODO:Handle Error
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-            await updateDoc(doc(db, "chats", data.chatId), {
-              messages: arrayUnion({
-                id: uuid(),
-                text: text,
-                senderId: currentUser.uid,
-                date: Timestamp.now(),
-                img: downloadURL,
-              }),
-            });
-            setText("")
-            setImg(null);
-          });
+    try {
+      if (img) {
+        await new Promise((resolve, reject) => {
+          uploadTask.on(
+            (error) => {
+              reject(error);
+            },
+            async () => {
+              const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+              await updateDoc(doc(db, "chats", data.chatId), {
+                messages: arrayUnion({
+                  id: uuid(),
+                  text: text,
+                  senderId: currentUser.uid,
+                  date: Timestamp.now(),
+                  img: downloadURL,
+                }),
+              });
+              setText("");
+              setImg(null);
+              resolve();
+            }
+          );
+        });
+      } else {
+        if (text === "") {
+          return;
         }
-      ); 
+        await updateDoc(doc(db, "chats", data.chatId), {
+          messages: arrayUnion({
+            id: uuid(),
+            text: text,
+            senderId: currentUser.uid,
+            date: Timestamp.now(),
+          }),
+        });
+        setText("");
+        setImg(null);
+      }
 
-    } else {
-      if(text === "")
-      return
-
-      await updateDoc(doc(db,"chats",data.chatId), {
-        messages: arrayUnion({
-          id: uuid(),
-          text: text,
-          senderId: currentUser.uid,
-          date:Timestamp.now()
-        })
-      })  
-      setText("")
-      setImg(null);
+      await updateDoc(doc(db, "userChats", currentUser.uid), {
+        [data.chatId + ".lastMessage"]:{
+          text
+        },
+        [data.chatId+".date"]: serverTimestamp()
+      })
+  
+      await updateDoc(doc(db, "userChats", data.user.uid), {
+        [data.chatId + ".lastMessage"]:{
+          text
+        },
+        [data.chatId+".date"]: serverTimestamp()
+      })
+    } catch (error) {
+      console.log(error)
     }
-
-    await updateDoc(doc(db, "userChats", currentUser.uid), {
-      [data.chatId + ".lastMessage"]:{
-        text
-      },
-      [data.chatId+".date"]: serverTimestamp()
-    })
-
-    await updateDoc(doc(db, "userChats", data.user.uid), {
-      [data.chatId + ".lastMessage"]:{
-        text
-      },
-      [data.chatId+".date"]: serverTimestamp()
-    })
+    
+    setImg(null);
   }
 
   return (
@@ -82,12 +93,13 @@ const Input = () => {
           <label htmlFor="file">
               <i className="bi bi-paperclip"></i>          
           </label>
-          <input type="file" id='file' name='file'/>
+          <input value={""} onChange={(e) => setImg(e.target.files[0])} type="file" id='file' name='file'/>
           <button>
             <i className="bi bi-camera-fill"></i>
           </button>
         </div>
       </form>
+      {img && <ImagePreview img={img} handleSubmit={handleSubmit} setImg={setImg} text={text} setText={setText}/>}
     </div>
   )
 }

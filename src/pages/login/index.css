@@ -26,6 +26,42 @@
     grid-row: 1;
 }
 
+.signin-sign-up a {
+    color: var(--text-color);
+}
+
+.forgot-password-btn a{
+    color: var(--text-color);
+}
+
+.hidden {
+    display: none;
+}
+
+.email-input {
+    border-radius: 1rem;
+}
+
+.password-div {
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.login-form input {
+    background: var(--secondary-color);
+    color: var(--text-color);
+    border: none;
+    padding: .8rem;
+    font-size: 1rem;
+    outline: none;
+}
+
 @media (max-width: 1000px) {
     .login-content-grid {
         display: flex;

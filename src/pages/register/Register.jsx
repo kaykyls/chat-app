@@ -1,35 +1,25 @@
 import React, { useRef, useState } from 'react'
 import "./index.css"
 import { updateProfile } from "firebase/auth";
-import { auth, storage, db } from "../../firebase.js"
+import { storage, db } from "../../firebase.js"
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { Link, useNavigate } from 'react-router-dom';
-// import { signOut } from "firebase/auth";
 
 const Register = () => {
-  // signOut(auth).then(() => {
-  //   // Sign-out successful.
-  // }).catch((error) => {
-  //   // An error happened.
-  // });
-
     const [error, setError] = useState(false)
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
     const [file, setFile] = useState(null)
-    const [url, setUrl] = useState(null)
     const [errorMsg, setErrorMsg] = useState("")
     const [viewPassword, setViewPassword] = useState(false)
     const [viewCheckPassword, setViewCheckPassword] = useState(false)
+    const [username, setUsername] = useState("")
 
     const navigate = useNavigate()
-
-    console.log(file)
-
     const checkPassword = useRef()
     const passwordRef = useRef()
 
@@ -56,61 +46,48 @@ const Register = () => {
         setError(false)
         setErrorMsg("")
 
-        let err = false
+        // let err = false
         const auth = getAuth();
-        createUserWithEmailAndPassword(auth, email, password)
-          .then((userCredential) => {
-            const user = userCredential.user;
+        try {
+          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+          const user = userCredential.user;
+        
+          const date = new Date().getTime();
+          
+          const imageRef = ref(storage, `${fullName} ${date}`);
 
-            console.log(user)
+          await uploadBytes(imageRef, file);
 
-            const date = new Date().getTime();
-            const imageRef = ref(storage, `${fullName} ${date}`);
-            uploadBytes(imageRef, file)
-              .then(() => {
-                getDownloadURL(imageRef)
-                  .then((url) => {
-                    setUrl(url);
-                    updateProfile(user, {
-                      displayName: fullName, photoURL: url
-                    }).then(() => {
-                      // Profile updated!
-                      // ...
-                    }).catch((error) => {
-                      console.log(error.message);
-                      err = true
-                    })
-                    .then(setDoc(doc(db, "userChats", user.uid), {}))
-                    .then(setDoc(doc(db, "users", user.uid), {
-                      uid: user.uid,
-                      displayName: fullName,
-                      email: user.email,
-                      photoURL: url
-                    }))
-                  })
-                  .catch((error) => {
-                    console.log(error.message, "error getting the image url");
-                  });
-                setFile(null);
-              })
-              .catch((error) => {
-                console.log(error.message);
-                err = true
-            });
+          let photoURL = null
+          if(file) {
+            const url = await getDownloadURL(imageRef);
+            photoURL = url
+          }
 
-            if(!err) {
-              err = false
-              navigate("/login")
-            }
-          })
-          .catch((error) => {
-            err = true
-
-            setError(true)
-            if(error.message === "Firebase: Error (auth/email-already-in-use).") {
-              setErrorMsg("Email already in use")
-            }
+          await updateProfile(user, {
+            displayName: fullName, photoURL
           });
+
+          await setDoc(doc(db, "userChats", user.uid), {});
+
+          await setDoc(doc(db, "users", user.uid), {
+            uid: user.uid,
+            displayName: fullName,
+            username,
+            email: user.email,
+            photoURL
+          });
+        
+          navigate("/login");
+        } catch (error) {
+          setError(true);
+          if (error.message === "Firebase: Error (auth/email-already-in-use).") {
+            setErrorMsg("Email already in use");
+            console.log(error)
+          } else {
+            console.log(error);
+          }
+        }
     }
 
     const handleViewPassword = (view) => {
@@ -147,30 +124,29 @@ const Register = () => {
                 <div className="form-wrapper">
                     <span>Chat App</span>
                     <h1>Create new account</h1>
-                    <form onSubmit={handleSubmit} className='form' action="">
-                      {/* <img src={url} alt="" /> teste */}
+                    <form onSubmit={handleSubmit} className='register-form' action="">
                         <div className="name">
-                            <input onChange={(e) => setFirstName(e.target.value)} value={firstName} type="text" placeholder='First name'/>
+                            <input onChange={(e) => setFirstName(e.target.value)} value={firstName} type="text" placeholder='First name' required/>
                             <input onChange={(e) => setLastName(e.target.value)} value={lastName} type="text" placeholder='Last name'/>
                         </div>
-                        <input onChange={(e) => setEmail(e.target.value)} value={email} type="email" placeholder='Email'/>
+                        <input value={username} onChange={(e) => setUsername(e.target.value)} type="text" placeholder='Username'/>
+                        <input onChange={(e) => setEmail(e.target.value)} value={email} type="email" placeholder='Email' required/>
                         <div className="password-div">
-                          <input onBlur={(e) => handleBlur(e)} onFocus={(e) => handleFocus(e)} ref={passwordRef} className='password-input' onChange={(e) => setPassword(e.target.value)} type="password" placeholder='Password'/>
+                          <input onBlur={(e) => handleBlur(e)} onFocus={(e) => handleFocus(e)} ref={passwordRef} className='register-password-input' onChange={(e) => setPassword(e.target.value)} type="password" placeholder='Password' required/>
                           <button type='button' className="eye-button">
                             {viewPassword ? <i onClick={() => handleViewPassword(false)} className="bi bi-eye-slash-fill"></i> : <i onClick={() => handleViewPassword(true)} className="bi bi-eye-fill"></i>}
                           </button>
                         </div>
                         <div className="password-div">
-                          <input className='password-input' ref={checkPassword} type="password" placeholder='Confirm password'/>
+                          <input className='register-password-input' ref={checkPassword} type="password" placeholder='Confirm password' required/>
                           <button type='button' className="eye-button">
                             {viewCheckPassword ? <i onClick={() => handleViewCheckPassword(false)} className="bi bi-eye-slash-fill"></i> : <i onClick={() => handleViewCheckPassword(true)} className="bi bi-eye-fill"></i>}
                           </button>
-                        </div>
-                        
-                        <div className="file">
+                        </div>                        
+                        {/* <div className="file">
                             <label htmlFor="input"><span className="material-symbols-outlined">add_a_photo</span><p>Add a photo</p></label>
                             <input onChange={(e) => setFile(e.target.files[0])} type="file" id="input"/>
-                        </div>
+                        </div> */}
                         {error && <span className='error-msg'>{errorMsg}</span>}
                         <button className="signup-btn">
                             Sign Up
