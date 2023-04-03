@@ -6,7 +6,7 @@
   <a href="#features">Features</a> •
   <a href="#prerequisites">Prerequisites</a> •
   <a href="#running-the-application">Running The Application</a> •
-  <!-- <a href="#preview">Preview</a> • -->
+  <a href="#preview">Preview</a> •
   <a href="#technologies">Technologies</a>
 </p>
 </div>
@@ -40,8 +40,8 @@ npm install
 npm start
 ```
 
-<!-- # Preview
-<a href=""><img height="400px" width="400px" src=""/></a> -->
+# Preview
+<a href="https://chat-app-kaykyls.vercel.app/"><img height="400px" width="400px" src="https://cdn.discordapp.com/attachments/766798638139179031/1092259032418500658/chatApp.gif"/></a>
 
 # Technologies
 - React

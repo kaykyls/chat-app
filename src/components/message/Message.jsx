@@ -8,8 +8,6 @@ const Message = (props) => {
     ref.current?.scrollIntoView()
   }, [props.message])
 
-  console.log(props.messageImg)
-
   return (
     <div ref={ref} className={`message${props.messageImg !== undefined ? " image-msg" : ""}`}>
       <div className={props.isContactMessage ? "contact-message" : "user-message"}>
