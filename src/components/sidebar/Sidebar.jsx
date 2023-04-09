@@ -1,12 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import "./index.css"
 import Search from '../search/Search'
 import Chats from '../chats/Chats'
-import teste from "./teste.jpg"
 import { auth } from '../../firebase'
 import { signOut } from "firebase/auth";
 import { AuthContext } from '../../context/authContext'
-import { onAuthStateChanged } from "firebase/auth";
 import { ChatContext } from '../../context/chatContext'
 import { storage } from "../../firebase.js"
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
@@ -14,13 +12,15 @@ import { updateProfile } from "firebase/auth";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase.js";
 import ImagePreview from '../imagePreview/ImagePreview'
+import { useEffect } from 'react'
+import { query, collection, where, getDocs } from 'firebase/firestore'
 
 const Sidebar = () => {
   const { data } = useContext(ChatContext)
 
   const [dropdownIsDown, setDropdownIsDown] = useState(false)
   const [imgURL, setImgURL] = useState("")
-  const [displayName, setDisplayName] = useState("")
+  const [userName, setUserName] = useState("")
   const [file, setFile] = useState(null)
 
   const {currentUser} = useContext(AuthContext)
@@ -43,7 +43,7 @@ const Sidebar = () => {
   
   const handleUpdatePicture = async () => {
     try {
-
+      ///////////////
       const date = new Date().getTime();
       const imageRef = ref(storage, `${currentUser.userName} ${date}`);
 
@@ -70,16 +70,38 @@ const Sidebar = () => {
     setFile(null)
   }
 
-  console.log(file)
+    const handleSetUserName = async () => {
+      const q = query(
+        collection(db, "users"),
+        where("uid", "==", currentUser.uid)
+      );
+
+      const querySnapshot = await getDocs(q)
+
+      querySnapshot.forEach((doc) => {
+        setUserName(doc.data().username)
+      })
+    }
+
+  useEffect(() => {
+    handleSetUserName()
+  }, [])
+
+  console.log(currentUser.uid)
 
   return (
     <div className={`sidebar${data.chatId !== "null" ? " hidden" : ""}`}>
       <div className="user-info">
         <div className="user-name-pic">
           <img src={currentUser.photoURL} alt="" />
-          <span className='user-name'>
-            {currentUser.displayName}
-          </span>
+          <div className="user-name">
+            <span>
+              {currentUser.displayName}
+            </span>
+            <span>
+              @{userName}
+            </span>
+          </div>
         </div>
         <div className="edit-user-info">
           <button onClick={handleDisplayDropdown}><i className="bi bi-three-dots-vertical"></i></button>

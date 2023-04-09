@@ -5,7 +5,7 @@ import Info from '../info/Info'
 import Messages from '../messages/Messages'
 import Input from '../input/Input'
 
-const Chat = (props) => {
+const Chat = () => {
   const { data } = useContext(ChatContext)
 
   return (
