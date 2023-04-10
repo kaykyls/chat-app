@@ -99,7 +99,7 @@ const Sidebar = () => {
               {currentUser.displayName}
             </span>
             <span>
-              @{userName}
+              {userName && `@${userName}`}
             </span>
           </div>
         </div>
@@ -117,6 +117,10 @@ const Sidebar = () => {
               <span>Update profile picture</span>
             </label>
             <input value={""} onChange={(e) => setFile(e.target.files[0])} type="file" name='update-pic-input' id='update-pic-input'/>
+          </div>
+          <div className="option" onClick={handleSignOut}>
+            <span>@</span>
+            <span>Change Username</span>
           </div>
         </div>}
       </div>

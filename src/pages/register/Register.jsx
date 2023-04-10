@@ -6,6 +6,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { Link, useNavigate } from 'react-router-dom';
+import { query, collection, getDocs } from "firebase/firestore";
 
 const Register = () => {
     const [error, setError] = useState(false)
@@ -39,6 +40,20 @@ const Register = () => {
             setErrorMsg("Your password must have 8 characters or more")
             return
         }
+
+        const q = query(
+          collection(db, "users")
+        );
+  
+        const querySnapshot = await getDocs(q)
+  
+        querySnapshot.forEach((doc) => {
+          if(doc.data().username == username) {
+            setError(true)
+            setErrorMsg("Username already in use")
+            return
+          }
+        })
 
         handleViewPassword(false)
         handleViewCheckPassword(false)
