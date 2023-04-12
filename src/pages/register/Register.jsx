@@ -47,13 +47,19 @@ const Register = () => {
   
         const querySnapshot = await getDocs(q)
   
+        let err = false
+
         querySnapshot.forEach((doc) => {
           if(doc.data().username == username) {
-            setError(true)
+            console.log("entrou")
             setErrorMsg("Username already in use")
+            setError(true)
+            err = true
             return
           }
         })
+
+        if(err) return
 
         handleViewPassword(false)
         handleViewCheckPassword(false)
