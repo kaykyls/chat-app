@@ -14,6 +14,7 @@ import { db } from "../../firebase.js";
 import ImagePreview from '../imagePreview/ImagePreview'
 import { useEffect } from 'react'
 import { query, collection, where, getDocs } from 'firebase/firestore'
+import UsernamePreview from '../usernamePreview/UsernamePreview'
 
 const Sidebar = () => {
   const { data } = useContext(ChatContext)
@@ -22,6 +23,8 @@ const Sidebar = () => {
   const [imgURL, setImgURL] = useState("")
   const [userName, setUserName] = useState("")
   const [file, setFile] = useState(null)
+  const [changeUsername, setChangeUsername] = useState(false)
+  const [username, setUsername] = useState("")
 
   const {currentUser} = useContext(AuthContext)
 
@@ -83,6 +86,28 @@ const Sidebar = () => {
       })
     }
 
+  const handleChangeUsername = async () => {
+    changeUsername ? setChangeUsername(false) : setChangeUsername(true)
+
+    const q = query(
+      collection(db, "users")
+    );
+
+    const querySnapshot = await getDocs(q)
+
+    let err = false
+
+    querySnapshot.forEach((doc) => {
+      if(doc.data().username == username) {
+        console.log("entrou")
+        err = true
+        return
+      }
+    })
+
+    if(err) return
+  }
+
   useEffect(() => {
     handleSetUserName()
   }, [])
@@ -118,13 +143,14 @@ const Sidebar = () => {
             </label>
             <input value={""} onChange={(e) => setFile(e.target.files[0])} type="file" name='update-pic-input' id='update-pic-input'/>
           </div>
-          <div className="option" onClick={handleSignOut}>
+          <div className="option" onClick={handleChangeUsername}>
             <span>@</span>
             <span>Change Username</span>
           </div>
         </div>}
       </div>
       {file && <ImagePreview setImg={setFile} handleUpdatePicture={handleUpdatePicture} img={file} updatePic={true}/>}
+      {changeUsername && <UsernamePreview/>}
       <Search/>
       <Chats/>
     </div>

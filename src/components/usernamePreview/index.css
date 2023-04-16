@@ -1,0 +1,19 @@
+.username-modal {
+    width: 100vw;
+    height: 100vh;
+    background: #00000061;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.username-container {
+    display: flex;
+    flex-direction: column;
+    border-radius: 1rem;
+    background: #eee;
+}
