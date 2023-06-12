@@ -147,27 +147,42 @@ const Register = () => {
                     <h1>Create new account</h1>
                     <form onSubmit={handleSubmit} className='register-form' action="">
                         <div className="name">
-                            <input onChange={(e) => setFirstName(e.target.value)} value={firstName} type="text" placeholder='First name' required/>
-                            <input onChange={(e) => setLastName(e.target.value)} value={lastName} type="text" placeholder='Last name'/>
+                          <div className="first-name">
+                            <label htmlFor="first-name">First name</label>
+                            <input id="first-name" onChange={(e) => setFirstName(e.target.value)} value={firstName} type="text" placeholder='Ex: John' required/>
+                          </div>
+                          <div className="last-name">
+                            <label htmlFor="last-name">Last name</label>
+                            <input onChange={(e) => setLastName(e.target.value)} value={lastName} type="text" placeholder='Ex: Williams'/>
+                          </div>
                         </div>
-                        <input value={username} onChange={(e) => setUsername(e.target.value)} type="text" placeholder='Username'/>
-                        <input onChange={(e) => setEmail(e.target.value)} value={email} type="email" placeholder='Email' required/>
-                        <div className="password-div">
-                          <input onBlur={(e) => handleBlur(e)} onFocus={(e) => handleFocus(e)} ref={passwordRef} className='register-password-input' onChange={(e) => setPassword(e.target.value)} type="password" placeholder='Password' required/>
-                          <button type='button' className="eye-button">
-                            {viewPassword ? <i onClick={() => handleViewPassword(false)} className="bi bi-eye-slash-fill"></i> : <i onClick={() => handleViewPassword(true)} className="bi bi-eye-fill"></i>}
-                          </button>
+                        <div className="username-wrapper">
+                          <label htmlFor="username-input">Username</label>
+                          <input id='username-input' value={username} onChange={(e) => setUsername(e.target.value)} type="text" placeholder='Ex: johnwilliams'/>
                         </div>
-                        <div className="password-div">
-                          <input className='register-password-input' ref={checkPassword} type="password" placeholder='Confirm password' required/>
-                          <button type='button' className="eye-button">
-                            {viewCheckPassword ? <i onClick={() => handleViewCheckPassword(false)} className="bi bi-eye-slash-fill"></i> : <i onClick={() => handleViewCheckPassword(true)} className="bi bi-eye-fill"></i>}
-                          </button>
-                        </div>                        
-                        {/* <div className="file">
-                            <label htmlFor="input"><span className="material-symbols-outlined">add_a_photo</span><p>Add a photo</p></label>
-                            <input onChange={(e) => setFile(e.target.files[0])} type="file" id="input"/>
-                        </div> */}
+                        <div className="email-wrapper">
+                          <label htmlFor="email-input">Email</label>
+                          <input id='email-input' onChange={(e) => setEmail(e.target.value)} value={email} type="email" placeholder='Ex: email@example.com' required/>
+                        </div>
+                        
+                        <div className="password-wrapper">
+                          <label htmlFor="password-input">Password</label>
+                          <div className="password-div">
+                            <input id="password-input" onBlur={(e) => handleBlur(e)} onFocus={(e) => handleFocus(e)} ref={passwordRef} className='register-password-input' onChange={(e) => setPassword(e.target.value)} type="password" placeholder='Enter 8 Characters or more' required/>
+                            <button type='button' className="eye-button">
+                              {viewPassword ? <i onClick={() => handleViewPassword(false)} className="bi bi-eye-slash-fill"></i> : <i onClick={() => handleViewPassword(true)} className="bi bi-eye-fill"></i>}
+                            </button>
+                          </div>
+                        </div>
+                        <div className="password-wrapper">
+                          <label htmlFor="check-password-input">Confirm Password</label>
+                          <div className="password-div">
+                            <input id='check-password-input' className='register-password-input' ref={checkPassword} type="password" placeholder='Enter 8 Characters or more' required/>
+                            <button type='button' className="eye-button">
+                              {viewCheckPassword ? <i onClick={() => handleViewCheckPassword(false)} className="bi bi-eye-slash-fill"></i> : <i onClick={() => handleViewCheckPassword(true)} className="bi bi-eye-fill"></i>}
+                            </button>
+                          </div>
+                        </div>                     
                         {error && <span className='error-msg'>{errorMsg}</span>}
                         <button className="signup-btn">
                             Sign Up

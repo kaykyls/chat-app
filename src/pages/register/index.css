@@ -46,6 +46,20 @@
     justify-content: space-between;
 }
 
+.name input, #username-input, #email-input {
+    border: 1px solid #e7e7e7;
+}
+
+.email-wrapper, .username-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.first-name, .last-name {
+    display: flex;
+    flex-direction: column;
+}   
+
 .image-div {
     background-image: url(./glenn-carstens-peters-npxXWgQ33ZQ-unsplash.jpg);
     height: 100vh;

@@ -56,10 +56,19 @@
 .login-form input {
     background: var(--secondary-color);
     color: var(--text-color);
-    border: none;
     padding: .8rem;
+    border: none;
     font-size: 1rem;
     outline: none;
+}
+
+#email, .password-div {
+    border: 1px solid #e7e7e7;
+}
+
+.email-container {
+    display: flex;
+    flex-direction: column;
 }
 
 @media (max-width: 1000px) {

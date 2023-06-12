@@ -70,16 +70,22 @@ const Login = () => {
                 <span>Chat App</span>
                 <h1>Login</h1>
                 <form onSubmit={handleSubmit} className='login-form' action="">
-                    <input className='email-input' onChange={(e) => setEmail(e.target.value)} type="email" placeholder='Email'/>
-                    <div className="password-div">
-                        {/* <input ref={passwordRef} onFocus={handleFocus} onBlur={handleBlur} className='password-input' onChange={(e) => setPassword(e.target.value)} type="password" placeholder='Password'/> */}
-                        <input ref={passwordRef} className='password-input' onChange={(e) => setPassword(e.target.value)} type="password" placeholder='Password'/>
-                        <button type='button' className="eye-button">
-                            {viewPassword ? <i onClick={() => handleViewPassword(false)} className="bi bi-eye-slash-fill"></i> : <i onClick={() => handleViewPassword(true)} className="bi bi-eye-fill"></i>}
-                        </button>
+                    <div className="email-container">
+                        <label htmlFor="email">E-mail</label>
+                        <input id='email' className='email-input' onChange={(e) => setEmail(e.target.value)} type="email" placeholder='youremail@example.com'/>
+                    </div>
+                    <div className="password-container">
+                        <label htmlFor="password">Password</label>
+                        <div className="password-div">
+                            {/* <input ref={passwordRef} onFocus={handleFocus} onBlur={handleBlur} className='password-input' onChange={(e) => setPassword(e.target.value)} type="password" placeholder='Password'/> */}
+                            <input id="password" ref={passwordRef} className='password-input' onChange={(e) => setPassword(e.target.value)} type="password" placeholder='password'/>
+                            <button type='button' className="eye-button">
+                                {viewPassword ? <i onClick={() => handleViewPassword(false)} className="bi bi-eye-slash-fill"></i> : <i onClick={() => handleViewPassword(true)} className="bi bi-eye-fill"></i>}
+                            </button>
+                        </div>
                     </div>
                     {error && <span className='error-msg'>{errorMsg}</span>}
-                    <span className='forgot-password-btn'><a href="/">Forgot password?</a></span>
+                    <span className='forgot-password-btn'><Link to={"/forgot-password"}>Forgot password?</Link></span>
                     <button className="signup-btn">
                         Sign In
                     </button>
