@@ -19,6 +19,7 @@
 # Features
 - [x] User authentication
 - [x] Send and receive messages
+- [x] Send and receive images
 - [x] Real time chat
 - [x] Search users by username
 
