@@ -14,7 +14,15 @@
 ---
 
 # Preview
-<a href="https://chat-app-kaykyls.vercel.app/"><img height="400px" width="400px" src="https://cdn.discordapp.com/attachments/766798638139179031/1092259032418500658/chatApp.gif"/></a>
+<a href="https://chat-app-kaykyls.vercel.app/">
+
+  https://github.com/kaykyls/chat-app/assets/105399770/44111c6b-d9a1-4863-a9a1-e9d526bb0c7f
+  
+  </a>
+
+
+
+
 
 # Features
 - [x] User authentication
